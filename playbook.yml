@@ -1,0 +1,23 @@
+--- #Ansible Playbook
+
+- hosts: test-server
+  user: ansible
+  become: yes
+  connection: ssh
+  tasks:
+     - name: Install pip
+       yum: name=python-pip state=present
+
+     - name: install docker on linux
+       yum: name=docker state=installed
+
+     - name: start docker
+       yum: name=docker state=started
+
+     - name: pull devopsedu/webapp imagee
+       docker_image:
+           name: devopsedu/webapp
+
+     - name: create container with image
+       command: docker run -itd -p 8080:80 devopsedu/webapp
+
