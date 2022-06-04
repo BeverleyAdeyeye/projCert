@@ -1,17 +1,2 @@
-[test-servers]
-54.87.3.95
-172.31.30.170
-ec2-54-87-3-95.compute-1.amazonaws.com
-ip-172-31-30-170.ec2.internal
-34.229.88.171
-172.31.30.242
-ec2-34-229-88-171.compute-1.amazonaws.com
-ip-172-31-30-242.ec2.internal
-
-[slave node]
-[F[H[B[F
-
-
-
 [slave node]
 172.31.30.170
