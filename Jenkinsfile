@@ -1,4 +1,5 @@
 pipeline {
+	agent any
 	    stages {
 	        stage('install puppet on slave') {
 	            agent { label 'Slave 1'}
