@@ -39,7 +39,7 @@
 
     - name: Run Docker container using php-demo-website
       docker_container:
-        name: php-demo-website
+        name: webapp
         image: devopsedu/webapp
         state: started
         recreate: yes
