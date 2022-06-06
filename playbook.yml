@@ -1,23 +1,50 @@
 --- #Ansible Playbook
 
-- hosts: test-server
-  user: ansible
-  become: yes
-  connection: ssh
+- name: Playbook to build and run container
+  hosts: test-server
+  become: true
+  gather_facts: false
   tasks:
-     - name: Install pip
-       yum: name=python-pip state=present
+     - name: Enable EPEL Repository on CentOS 7
+      yum:
+        name: epel-release
+        state: latest
+  
+    - name: install python pip
+      yum:
+        name: python-pip
+        state: present
 
-     - name: install docker on linux
-       yum: name=docker state=installed
+ - name: install docker
+      yum:
+        name: docker
+        state: present
 
-     - name: start docker
-       yum: name=docker state=started
+    - name: start docker
+      service:
+        name: docker
+        state: started
+        enabled: yes
 
-     - name: pull devopsedu/webapp imagee
-       docker_image:
-           name: devopsedu/webapp
+    - name: install docker-py python module
+      pip:
+        name: docker-py
+        state: present
 
-     - name: create container with image
-       command: docker run -itd -p 8080:80 devopsedu/webapp
+    - name: install docker from python pip
+      pip:
+        name: docker
+      vars:
+        ansible_python_interpreter: /usr/bin/python3
 
+    - name: Run Docker container using php-demo-website
+      docker_container:
+        name: webapp
+        image: devopsedu/webapp
+        state: started
+        recreate: yes
+        detach: true
+        ports:
+          - "8081:80"
+      vars:
+        ansible_python_interpreter: /usr/bin/python3
